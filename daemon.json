@@ -1,0 +1,4 @@
+{
+  "insecure-registries" : ["private-image-repo:443"]
+}
+
