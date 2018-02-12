@@ -4,7 +4,7 @@
 # date: 2/2/18
 # name: R. Melton
 # command: builddocker.sh <path to Dockerfile> <docker repo>  <image version> <docker username>  
-#   example: ./builddocker.sh . image_example mytag 1 awardsolutionsuser xyz
+#   example: ./builddocker.sh . image_example 1 awardsolutionsuser
 
  
 function usage { 
@@ -20,6 +20,12 @@ else
   usage
   exit 1
 fi
+if [ ! -e "./afile.txt" ]
+then
+  echo "missing local afile.txt in " `pwd`
+  exit 1
+fi
+
 
 docker build -t $2:$3 $1 
 # you may or may not want to run the container locally 
@@ -35,6 +41,14 @@ docker logout
 docker rmi $2:$3
 docker rmi $4/$2:$3
 docker images
+#check images versions in this repo
+
+#curl -L https://auth.docker.io/token?service=registry.docker.io&scope=repository:awardsolutionsuser/image_example:pull,push
+# to list repos for user: curl -L https://hub.docker.com/v2/repositories/awardsolutionsuser/?page_size=200
+# API V2 docs https://docs.docker.com/registry/spec/api/#listing-repositories
+echo "the following versions are in your docker repo:"
+curl -k https://registry.hub.docker.com/v1/repositories/$4/$2/tags
+
 echo "your image can be accessed as $4/$2:$3"
 
 
