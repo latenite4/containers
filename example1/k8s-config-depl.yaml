@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deployment1
+  labels:
+    app: deployment1
+spec:
+  template:
+    metadata:
+      labels:
+        app: deployment1
+    spec:
+      containers:
+      - name: deployment1c
+        image: awardsolutionsuser/image_example:28
+        envFrom:
+          - configMapRef:
+              name: myconfigmap1
+        env:
+#        - name: FROM_DEPL_TO_CM1
+#          valueFrom:
+#             configMapKeyRef:
+#               name: myconfigmap1
+#               key: FROM_CONFIGMAP1
+        - name: FROM_DEPL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+        - name: FROM_DEPL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
+        - name: FROM_DEPL
+          value: from_depl
+        volumeMounts:
+            - mountPath: "/etc/secrets"
+              readOnly: true
+              name: secrets
+            - mountPath: /etc/depl/config
+              name: myconfigmap2
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: secrets
+          secret:
+            secretName: mysecret
+        - name: depl
+          configMap:
+             name: depl
+             items:
+              - key: config
+                path:  deplconfig.yml
+      imagePullSecrets:
+        - name: regcred
+

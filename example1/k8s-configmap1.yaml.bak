@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap1
+  labels:
+    name: myconfigmap1
+data:
+  FROM_CONFIGMAP1: FROM_CONFIGMAP_VALUE1
+  FROM_CONFIGMAP2: FROM_CONFIGMAP_VALUE2
+
+
+
+
