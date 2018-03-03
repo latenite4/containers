@@ -9,8 +9,8 @@ data:
     ---
     :verbose: true
     :environment: staged
-    :pidfile: tmp/pids/sidekiq.pid
-    :logfile: log/sidekiq.log
+    :pidfile: tmp/pids/mypidfile.pid
+    :logfile: log/mylogfile.log
     :concurrency: 20
     :queues:
       - [default, 1]

@@ -1,0 +1,60 @@
+example 1: this k8s example shows how deployments and pods can use configmaps (multiple) and
+secrets.  It also shows how secrets can be used as env variables and as files.
+The builddocker.sh script is used to build docker images and push them to the docker cloud repo 
+from which they are used in the k8s-config-depl.yaml file.
+name: R. Melton
+date: 3/2/18
+
+1. setup:
+kubectl create -f k8s-secret-login-1.yaml
+kubectl create -f  k8s-configmap1.yaml
+kubectl create -f  k8s-configmap2.yaml
+kubectl create -f  k8s-config-depl.yaml
+kubectl get po
+
+2. the log dump below shows the env  variables inside the pod container. look at the Dockerfile
+entrypoint to see how these values are shown inside the container. the read secrets.py program
+is used inside the container to read the secrets files and dump their contents.
+
+kubectl logs deployment1-7dd6dbc7f-7vjnx
+Hello from a container...
+Sat Mar  3 00:08:34 UTC 2018
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT=tcp://10.32.0.1:443
+FROM_DEPL_PASSWORD=mypassword
+HOME=/root
+FROM_CONFIGMAP1=FROM_CONFIGMAP_VALUE1
+FROM_CONFIGMAP2=FROM_CONFIGMAP_VALUE2
+KUBERNETES_PORT_443_TCP_ADDR=10.32.0.1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+FROMDOCKERFILE1=FROMDOCKERFILEVALUE1
+FROMDOCKERFILE2=FROMDOCKERFILEVALUE2
+FROM_DEPL=from_depl
+KUBERNETES_PORT_443_TCP_PORT=443
+FROM_DEPL_USERNAME=myusername
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP=tcp://10.32.0.1:443
+KUBERNETES_SERVICE_HOST=10.32.0.1
+PWD=/
+---
+:verbose: true
+:environment: staged
+:pidfile: tmp/pids/mypidfile.pid
+:logfile: log/mylogfile.log
+:concurrency: 20
+:queues:
+  - [default, 1]
+:dynamic: true
+:timeout: 300
+total 4
+drwxrwxrwt 3 root root  120 Mar  3 00:08 .
+drwxr-xr-x 1 root root 4096 Mar  3 00:08 ..
+drwxr-xr-x 2 root root   80 Mar  3 00:08 ..3983_03_03_00_08_23.886866086
+lrwxrwxrwx 1 root root   31 Mar  3 00:08 ..data -> ..3983_03_03_00_08_23.886866086
+lrwxrwxrwx 1 root root   15 Mar  3 00:08 password -> ..data/password
+lrwxrwxrwx 1 root root   15 Mar  3 00:08 username -> ..data/username
+
+dump secrets 
+password  mypassword   username  myusername 
+

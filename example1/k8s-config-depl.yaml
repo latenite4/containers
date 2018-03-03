@@ -46,9 +46,9 @@ spec:
         - name: secrets
           secret:
             secretName: mysecret
-        - name: depl
+        - name: myconfigmap2
           configMap:
-             name: depl
+             name: myconfigmap2
              items:
               - key: config
                 path:  deplconfig.yml
