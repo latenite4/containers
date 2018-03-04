@@ -1,0 +1,22 @@
+Example2 - show how to pass arguments to a program running in a container/pod
+# build command: ./builddocker.sh example2 awardsolutionsuser image_example someversion
+
+steps to reproduce:
+
+1. build image with read-args.py and see that app is not using params correctly. should use as env vars.
+2. build image with read-args1.py and see that app is using params correctly. 
+
+substeps for both steps above:
+
+kubectl create -f k8s-args.yaml
+kubectl logs command-args-demo
+
+verify (using logs) that app read params correctly.
+	arg list is  PATH KUBERNETES_PORT myvalue
+	all env variables  {'KUBERNETES_PORT_443_TCP_PROTO': 'tcp', 'HOME': '/root', 'KUBERNETES_SERVICE_HOST': '10.32.0.1', 'KUBERNETES_PORT_443_TCP': 'tcp://10.32.0.1:443', 'KUBERNETES_SERVICE_PORT_HTTPS': '443', 'KUBERNETES_PORT_443_TCP_ADDR': '10.32.0.1', 'KUBERNETES_PORT': 'tcp://10.32.0.1:443', 'PATH': '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'KUBERNETES_PORT_443_TCP_PORT': '443', 'FROMDOCKERFILE1': 'FROMDOCKERFILEVALUE1', 'KUBERNETES_SERVICE_PORT': '443'}
+	arg 1 is  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+	arg 2 is  tcp://10.32.0.1:443
+	arg 3 is  myvalue
+	exit program  /read-args1.py
+
+kubectl delete -f k8s-args.yaml

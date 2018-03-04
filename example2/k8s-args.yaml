@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-args-demo
+  labels:
+    purpose: demonstrate-command-args
+spec:
+  containers:
+  - name: c1
+    image: awardsolutionsuser/image_example:38
+    command: ["/read-args1.py"]
+    args: ["PATH", "KUBERNETES_PORT","myvalue"]
+  restartPolicy: Never
