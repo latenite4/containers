@@ -20,3 +20,6 @@ verify (using logs) that app read params correctly.
 	exit program  /read-args1.py
 
 kubectl delete -f k8s-args.yaml
+
+note: when "command" is used in the yaml file, the entry point in the Dockerfile is ignored. clarify the difference
+between putting params in Dockerfile and in yaml file.
