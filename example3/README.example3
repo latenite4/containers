@@ -1,0 +1,23 @@
+example3 - show mysql installation and persistent volume claims. it also shows how to 
+login to the mysql DB. The documentation does not describe the creation of the pv; i added this
+step so that the pvc would work.
+based on: https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+
+1. steps
+kubectl create -f ./k8s-pv.yaml
+kubectl get pv
+kubectl create -f ./k8s-mysql.yaml (had to make storage class in pvc be manual)
+kubectl get po
+kubectl describe deployment mysql
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -ppassword  (hit CR a couple of times)
+show databases;
+quit;
+
+2. cleanup
+the documentation notes that you should not scale this app because the vol will not be mounted on other hosts.
+it also says that restart tragedy should be Restart.
+
+kubectl delete -f ./k8s-mysql.yaml
+kubectl delete -f ./k8s-pv.yaml 
+
+
