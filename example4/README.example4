@@ -1,0 +1,14 @@
+README example4 - this demo is designed to show services for DNS and clusterIP.
+documentation: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/
+
+
+this demo doesn't work 
+ Warning  Failed                 53s (x9 over 2m)  kubelet, worker-0  Error: lstat /mnt/data: no such file or directory
+
+
+1. setup
+kubectl create -f k8s-pv.yaml
+kubectl create -f k8s-mysql-configmap.yaml
+kubectl create -f k8s-svc.yaml
+kubectl create -f k8s-statefulset.yaml
+
