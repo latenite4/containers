@@ -1,0 +1,25 @@
+README example5 - this demo is designed to show accessing k8s dashboard and multiclusters
+documentation: https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#directly-accessing-the-rest-api
+  https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+  http://jeffmendoza.github.io/kubernetes/v1.0/docs/user-guide/kubeconfig-file.html
+
+
+
+1. setup
+kubectl get po -n kube-system (make sure that dashboard pod is running)
+be sure that KUBECONFIG var has been set locally (the proxy will sue the config file to find address of remote k8s cluster)
+kubectl proxy  (locally)
+in local browser, go to localhost:8001/ui to connect to remoste cluster
+how to login to dashboard:  basic auth is deprecated; token auth is the new way
+to get token for admin user 'more ~/.kube/rnmclusterkops-gcp-kops-kubeconfig' or 'kubectl config view'
+copy hashed form of admin PW and use as login token.
+the kubeconfig form of login doesn't seem to work so use token login. basic auth must be enabled in the API server
+  before it can be used to login to GUI.
+current version of API can be retrieved locally with 'curl http://localhost:8001/api'
+ 
+config files (e.g. k8s-multi-cluster.yaml) are not created with 'kubernetes create' command (kubeconfig file is always kind: Config)
+kubectl config --kubeconfig=k8s-multi-cluster.yaml set-cluster development --server=https://1.2.3.4 --certificate-authority=fake-ca-file
+
+kubectl create -f k8s-mysql-configmap.yaml
+kubectl create -f k8s-svc.yaml
+kubectl create -f k8s-statefulset.yaml
