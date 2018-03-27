@@ -1,5 +1,8 @@
 README example6 - this demo is designed to show service accounts and roles
-documentation: https://docs.bitnami.com/kubernetes/how-to/configure-rbac-in-your-kubernetes-cluster/
+documentation: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+  https://docs.bitnami.com/kubernetes/how-to/configure-rbac-in-your-kubernetes-cluster/
   https://stackoverflow.com/questions/42170380/how-to-add-users-to-kubernetes-kubectl
 
+
+  3/27/18 - never could get RBAC to work; always get error when using new context
 
