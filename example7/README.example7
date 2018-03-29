@@ -5,6 +5,8 @@ date:  3/28/18
 Note: it is necessary to open firewall ports on cloud to get this demo to work. for GCP, this is done with
   gcloud compute firewall-rules create
 
+verified: 3/29/18 on GKE and GCE KOPS
+
 
 1. setup
 cd ~/github/containers

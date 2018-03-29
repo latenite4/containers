@@ -1,0 +1,35 @@
+README example8 - this demo is designed to show 2 level loadbalancer service(s)
+documentation: https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/
+date:  3/29/18
+
+Note: there are 2 loadbalancers here. the BE load balancer loadbalances with ClusterIP (private) while
+the FE loadbalancer has an external address which is the external interface of the system. the FE containers
+  ( there's only one pod) runs nginx to forward external reqests to the BE loadbalancer. Note the BE 
+  has no service type (default to loadbalancer with ClusterIPs).
+  the FE loadbalancer is able to find the BE loadbalancer using the DNS name of the BE loadbalancer 
+  service i.e. 'hello'.
+
+  this example uses container images from GCR
+
+verified: 3/29/18 on GCE KOPS
+
+
+1. setup
+cd ~/github/containers/example8
+kubectl create -f ./k8s-backend-depl.yml
+kubectl create -f ./k8s-be-svc.yml
+kubectl get svc hello  (note: it has a ClusterIP but no ext IP)
+kubectl create -f k8s-fe-depl-svc.yml
+kubectl get svc frontend  (note: it has a ClusterIP and ext IP)
+curl externalIP:80 and see that hostname is changed in several curls
+the result does not show hostname but it is coming from one of 7 BEs
+
+
+
+2. cleanup
+kubectl delete -f k8s-fe-depl-svc.yml
+kubectl delete -f ./k8s-be-svc.yml
+kubectl delete -f ./k8s-backend-depl.yml
+
+
+
