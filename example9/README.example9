@@ -1,0 +1,32 @@
+README example9 - this demo is designed to show communication between 2 containers in the same pod.
+documentation: https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
+date:  3/30/18
+
+here we communicate between 2 containers in the same pod. we show 2 types of communication:
+a.  shared data file mounted in different llocations within the file system of each container. 
+    the name of the volumemount is the same in both containers.
+b.  communication between ports on shared localhost
+The primary reason pods may have multiple containers is to include sidecar (helper processes) for the main app process.
+the sidecar can share with the main app thru either shared data mount or thru shared local host.
+
+verified: 3/30/18 on GCE KOPS
+
+
+1. setup
+cd ~/github/containers/example9
+k create -f k8s-share.yml
+k get po -o yaml (note that debian pod is sleeping for 200s)
+kubectl exec -it two-containers -c debian-container -- sh
+apt-get update
+apt-get install -y curl
+curl localhost
+note that the debian container is communicating with the other container on localhost:80
+and the nginx container is returning the message which was written by the debian container
+into the share volume mount.
+this shows 2 types of communication (localhost and shared volume mount)
+
+2. cleanup
+k delete -f k8s-share.yml
+
+
+

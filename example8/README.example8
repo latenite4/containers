@@ -29,7 +29,7 @@ the result does not show hostname but it is coming from one of 7 BEs
 2. cleanup
 kubectl delete -f k8s-fe-depl-svc.yml
 kubectl delete -f ./k8s-be-svc.yml
-kubectl delete -f ./k8s-backend-depl.yml
+kubectl delete -f ./k8s-be-depl.yml
 
 
 
