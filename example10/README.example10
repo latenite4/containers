@@ -1,0 +1,32 @@
+README example10 - this demo is designed to show how to collect pod logs on GCP stackdriver with fluentd
+documentation: https://kubernetes.io/docs/tasks/debug-application-cluster/logging-stackdriver/
+date:  4/2/18
+
+the log for each pod log file is a seperate log; they are not intermixed. stackdriver does not seem to be a log aggregator
+
+only what the pod writes to stdout is captured as a log message; /var/log is not captured.
+
+verified: 3/29/18 GCE KOPS
+
+1. setup
+export KUBE_LOGGING_DESTINATION=gcp
+cd ~/github/containers/example10
+k get nodes
+kubectl label node $NODE_NAME beta.kubernetes.io/fluentd-ds-ready=true   *label worker nodes
+kubectl create -f ./k8s-fluentd-gcp-configmap.yaml   # create config map
+kubectl create -f ./k8s-fluentd-gcp-ds.yaml   # create daemonset for fluentd
+k create f ./k8s-log-maker.yaml   # start pod which will generate logs
+gcloud logging logs list  # find the right log file name for your pod
+gcloud logging read 'logName="projects/precise-blend-682/logs/kubernetes.log-maker_default_count"' --format json | jq '.[].jsonPayload.log' 
+
+2. cleanup
+ k delete f ./k8s-log-maker.yaml
+ k delete ds fluentd-gcp-v2.0
+ k delete cm fluentd-gcp-config
+ gcloud logging logs delete projects/precise-blend-682/logs/kubernetes.log-maker_default_count
+
+
+
+
+
+
