@@ -5,7 +5,7 @@ date:  3/28/18
 Note: it is necessary to open firewall ports on cloud to get this demo to work. for GCP, this is done with
   gcloud compute firewall-rules create
 
-verified: 3/29/18 on GKE and GCE KOPS
+verified: 4/10/18 on GKE and GCE KOPS
 
 
 1. setup
@@ -15,13 +15,13 @@ cd ~/github/containers
 kubectl run hello-world --replicas=2 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:correctversiontag  --port=81
 kubectl get pods --selector="run=load-balancer"
 kubectl get replicasets --selector="run=load-balancer"
-kubectl expose rs  yourreplicasetname --type="LoadBalancer" --name="lb-service"
-kubectl get services lb-service  (to see external IP address; this may take a minute or so)
+kubectl expose rs  yourreplicasetname --type="LoadBalancer" --name="hello-lb-service"
+kubectl get services hello-lb-service  (to see external IP address; this may take a minute or so)
 curl externalIP:81 and see that hostname is changed in several curls
 
 
 2. cleanup
-k delete svc lb-service
+k delete svc hello-lb-service
 k delete deployment hello-world
 
 

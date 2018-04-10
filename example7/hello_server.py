@@ -52,7 +52,7 @@ class S(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=S,bind_address='3.0.0.11', bind_port=81):
     server_address = (bind_address, bind_port)
     httpd = HTTPServer(server_address, S)
-    print colored('\nAlarm receiver waiting... at:\t'+bind_address+":"+str(bind_port),'cyan')
+    print colored('\nHTTP receiver waiting... at:\t'+bind_address+":"+str(bind_port),'cyan')
     start_time = datetime.datetime.now().ctime()
     print colored('Time:             \t\t'+start_time,'cyan')
     httpd.serve_forever()
@@ -62,7 +62,7 @@ def run_start(ip,port):
    
 
 def usage():
-    print "usage: sudo alarm_receiver.py <ip_address> <port>"
+    print "usage: sudo hello_server.py <ip_address> <port>"
     sys.exit(1)
 
 
