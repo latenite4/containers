@@ -1,4 +1,4 @@
-# Dockerfile for logs
+# Dockerfile for log generator container image
 #
 FROM ubuntu 
 MAINTAINER  R. Melton

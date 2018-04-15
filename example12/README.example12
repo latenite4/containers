@@ -1,0 +1,28 @@
+README example12 - this demo is designed to show grafana and stress-ng
+documentation: https://kubernetes.io/docs/tasks/debug-application-cluster/logging-stackdriver/
+documentation: https://kubernetes.io/docs/tasks/debug-application-cluster/events-stackdriver/
+documentation: https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/
+documentation: 4th way of doing logging - http://tinyurl.com/yd3lbq8h
+
+date:  4/13/18
+
+verified: 4/15/18 GKE
+
+----------------------------------------------------------------------------------
+1. setup  grafana and heapster are already running in GKE
+k proxy --port=8080
+localhost:8080//api/v1/namespaces/kube-system/services/monitoring-grafana/proxy
+./builddocker.sh ./example12 awardsolutionsuser image_example stress-ng
+kubectl create -f example12/k8s-stress-ng.yaml
+#view usage in grafana console
+#run 2 CPU test if there is time
+# show slide 20 from k8s slide deck
+#possibilities execution scenarios
+run 1CPU 4 min; OR run 50% on 2CPU for 4 min
+
+
+2. cleanup for stack driver logging
+kubectl delete -f example12/k8s-stress-ng.yaml
+
+
+

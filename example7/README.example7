@@ -10,14 +10,18 @@ verified: 4/10/18 on GKE and GCE KOPS
 
 1. setup
 cd ~/github/containers
+#review app program and DOckerfile
 # build an image which will return hostname
-./builddocker.sh ./example7 awardsolutionsuser image_example correctversiontag
-kubectl run hello-world --replicas=2 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:correctversiontag  --port=81
+./builddocker.sh ./example7 awardsolutionsuser image_example http
+kubectl run hello-world --replicas=3 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:http  --port=81
+
 kubectl get pods --selector="run=load-balancer"
 kubectl get replicasets --selector="run=load-balancer"
 kubectl expose rs  yourreplicasetname --type="LoadBalancer" --name="hello-lb-service"
 kubectl get services hello-lb-service  (to see external IP address; this may take a minute or so)
 curl externalIP:81 and see that hostname is changed in several curls
+#delete one pod and see it come back; this is HA - high availability
+kubectl scale  --replicas=10 deployment/hello-world
 
 
 2. cleanup

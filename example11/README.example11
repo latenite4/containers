@@ -1,0 +1,23 @@
+README example11 - this demo is designed to show kubectl proxy and dashboard.
+
+how to skip dashboard login: https://github.com/kubernetes/dashboard/wiki/Access-control#kubeconfig
+
+date:  4/2/18
+
+verified: 3/29/18 GCE KOPS
+
+----------------------------------------------------------------------------------
+1. setup   
+kubectl cluster-info
+show one service URL
+echo $KUBECONFIG
+kubectl proxy --port=8080
+GUI  localhost:8080/ui 
+show dashboard
+run hello-world job from dashboard; view logs
+
+
+
+2. cleanup 
+delete hello-world deployment from dashboard
+

@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stress-ng-job
+  namespace: default
+spec:
+  template:
+    metadata:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: stress-ng
+        image: "awardsolutionsuser/image_example:stress-ng"
+        resources:
+          requests:
+            memory: "5Gi"
+            cpu: "1000m"
+          limits:
+            memory: "5Gi"
+            cpu: "1000m"
+        command: ["stress-ng"]
+        args: ["-c 2", "-t 120s"]

@@ -51,18 +51,27 @@ gcloud logging read 'logName="projects/precise-blend-682/logs/events"' --format 
 # you should turn off logging with GKE so we start all logging here
 1. setup for logs on elasticsearch this local yaml file ./cluster/addons/fluentd-elasticsearch/fluentd-es-ds.yaml
 and this documentation https://kubernetes.io/docs/tasks/debug-application-cluster/logging-elasticsearch-kibana/
-./k8s-elk-stack.sh  init
+build log-maker image
+#show log-maker.go program
+./builddocker.sh ./example10 awardsolutionsuser image_example log-maker
+./k8s-efk-stack.sh init
+#show log-maker image in the Docker cloud
+it may take a couple of minutes before logs get to elasticsearch
 k proxy --port=8080
-http://localhost:8080/api/v1/namespaces/kube-system/services/kibana-logging/proxy/
+view kibana http://localhost:8080/api/v1/namespaces/kube-system/services/kibana-logging/proxy/
 or http://localhost:8080/api/v1/namespaces/kube-system/services/kibana-logging/proxy/app/kibana#/management/kibana/index?_g=()
 # create index
+create saved search for "logto" string
+build visualition from saved search
 
 # you may want to use a flavor for nodes which has more RAM for elasticsearch.
 # es can easily run out of memory if you have a lot of logs.
+use second level pie chart to verify rand function in log-maker.gcloud
 
 2. cleanup
 #kill local proxy
-./k8s-elk-stack.sh  delete
+
+./k8s-efk-stack.sh delete
 
 ----------------------------------------------------------------------------------
 
