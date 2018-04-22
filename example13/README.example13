@@ -1,0 +1,17 @@
+README example13 this demo show PHP guestbook application with redis DB
+documentation: https://kubernetes.io/docs/tutorials/stateless-application/guestbook/
+
+date:  4/20/18
+
+verified: 
+
+----------------------------------------------------------------------------------
+1. setup 
+yaml files predownloaded into example13 dir
+ 
+
+
+2. cleanup 
+
+
+

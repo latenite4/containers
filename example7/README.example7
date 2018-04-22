@@ -13,20 +13,55 @@ cd ~/github/containers
 #review app program and DOckerfile
 # build an image which will return hostname
 ./builddocker.sh ./example7 awardsolutionsuser image_example http
-kubectl run hello-world --replicas=3 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:http  --port=81
+kubectl run hello-http --replicas=3 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:httpgo  --port=82
 
 kubectl get pods --selector="run=load-balancer"
 kubectl get replicasets --selector="run=load-balancer"
 kubectl expose rs  yourreplicasetname --type="LoadBalancer" --name="hello-lb-service"
 kubectl get services hello-lb-service  (to see external IP address; this may take a minute or so)
-curl externalIP:81 and see that hostname is changed in several curls
+curl externalIP:82 and see that hostname is changed in several curls
 #delete one pod and see it come back; this is HA - high availability
-kubectl scale  --replicas=10 deployment/hello-world
+kubectl scale  --replicas=10 deployment/hello-http
+# use httperf if desired to test IO rate. native best rate on baremetal = 109 KBs
+#httperf --server 127.0.0.1 --port=82 --http-version=1.1 --num-conns=4000 --rate=500 --method=GET --timeout=2
+
+# example LBaaS results
+# with 3 replicas
+    Reply status: 1xx=0 2xx=536 3xx=0 4xx=0 5xx=0
+    CPU time [s]: user 0.21 system 4.98 (user 3.7% system 86.6% total 90.4%)
+    Net I/O: 24.8 KB/s (0.2*10^6 bps)
+    Errors: total 464 client-timo 464 socket-timo 0 connrefused 0 connreset 0
+# with 10 replicas
+    Reply status: 1xx=0 2xx=497 3xx=0 4xx=0 5xx=0
+    CPU time [s]: user 0.24 system 5.06 (user 4.1% system 87.2% total 91.3%)
+    Net I/O: 23.7 KB/s (0.2*10^6 bps)
+    Errors: total 503 client-timo 503 socket-timo 0 connrefused 0 connreset 0
+# with 12 replicas
+    Reply status: 1xx=0 2xx=432 3xx=0 4xx=0 5xx=0
+    CPU time [s]: user 0.23 system 4.88 (user 4.0% system 86.5% total 90.6%)
+    Net I/O: 21.3 KB/s (0.2*10^6 bps)
+    Errors: total 568 client-timo 568 socket-timo 0 connrefused 0 connreset 0
+# with 5 replicas
+    Reply status: 1xx=0 2xx=449 3xx=0 4xx=0 5xx=0
+    CPU time [s]: user 0.15 system 4.57 (user 2.8% system 87.7% total 90.5%)
+    Net I/O: 23.5 KB/s (0.2*10^6 bps)
+    Errors: total 551 client-timo 551 socket-timo 0 connrefused 0 connreset 0
+# with 2 replicas
+    Reply status: 1xx=0 2xx=532 3xx=0 4xx=0 5xx=0
+    CPU time [s]: user 0.21 system 4.68 (user 3.9% system 87.2% total 91.1%)
+    Net I/O: 26.1 KB/s (0.2*10^6 bps)
+    Errors: total 468 client-timo 468 socket-timo 0 connrefused 0 connreset 0
+
+
+
+
+
+
 
 
 2. cleanup
 k delete svc hello-lb-service
-k delete deployment hello-world
+k delete deployment hello-http
 
 
 

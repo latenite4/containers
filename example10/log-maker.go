@@ -41,6 +41,7 @@ func main() {
 		} else if randomNumber < 20 {
 			myError = "level2"
 		}
+
 		// write to stdout
 
 		//dont add timestamp to log message; it is already provided

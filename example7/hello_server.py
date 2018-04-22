@@ -35,18 +35,21 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         myhost = platform.node()
         hello_msg="hello from host: "+myhost
-        print hello_msg
         self.wfile.write("<html><body><h1>"+hello_msg+"</h1></body></html>")
         self.send_response(200)
-        print "got GET msg"
+        print "GET hostname: ",platform.node()," src Addr: ",self.client_address
     def do_HEAD(self):
         self._set_headers()
         self.send_response(200)
-        print "got HEAD msg"
+        print "HEAD hostname: ",platform.node()," src Addr: ",self.client_address
     def do_POST(self):
         self._set_headers()
         self.send_response(200)
-        print "got POST msg"
+        print "POST hostname: ",platform.node()," src Addr: ",self.client_address
+    def do_PUT(self):
+        self._set_headers()
+        self.send_response(200)
+        print "PUT hostname: ",platform.node()," src Addr: ",self.client_address
         
         
 def run(server_class=HTTPServer, handler_class=S,bind_address='3.0.0.11', bind_port=81):

@@ -21,6 +21,7 @@ kubectl create -f example12/k8s-stress-ng.yaml
 run 1CPU 4 min; OR run 50% on 2CPU for 4 min
 
 
+
 2. cleanup for stack driver logging
 kubectl delete -f example12/k8s-stress-ng.yaml
 
