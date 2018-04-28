@@ -5,15 +5,16 @@ date:  3/28/18
 Note: it is necessary to open firewall ports on cloud to get this demo to work. for GCP, this is done with
   gcloud compute firewall-rules create
 
-verified: 4/10/18 on GKE and GCE KOPS
+verified: 4/10/18 on GKE 
 
 
 1. setup
 cd ~/github/containers
 #review app program and DOckerfile
 # build an image which will return hostname
-./builddocker.sh ./example7 awardsolutionsuser image_example http
-kubectl run hello-http --replicas=3 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:httpgo  --port=82
+./builddocker.sh ./example7 awardsolutionsuser image_example httpgo
+./k8s-efk-stack.sh init 
+kubectl run hello-http --replicas=3 --labels="run=load-balancer" --image=awardsolutionsuser/image_example:http-go  --port=82
 
 kubectl get pods --selector="run=load-balancer"
 kubectl get replicasets --selector="run=load-balancer"
@@ -24,7 +25,8 @@ curl externalIP:82 and see that hostname is changed in several curls
 kubectl scale  --replicas=10 deployment/hello-http
 # use httperf if desired to test IO rate. native best rate on baremetal = 109 KBs
 #httperf --server 127.0.0.1 --port=82 --http-version=1.1 --num-conns=4000 --rate=500 --method=GET --timeout=2
-
+# start local proxy
+# access kibana view kibana http://localhost:8080/api/v1/namespaces/kube-system/services/kibana-logging/proxy/
 # example LBaaS results
 # with 3 replicas
     Reply status: 1xx=0 2xx=536 3xx=0 4xx=0 5xx=0

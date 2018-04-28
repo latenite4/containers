@@ -9,7 +9,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-      - name: stress-ng
+      - name: stress-ng-cont
         image: "awardsolutionsuser/image_example:stress-ng"
         resources:
           requests:
@@ -19,4 +19,4 @@ spec:
             memory: "5Gi"
             cpu: "1000m"
         command: ["stress-ng"]
-        args: ["-c 2", "-t 120s"]
+        args: ["-c 1", "-t 120s"]

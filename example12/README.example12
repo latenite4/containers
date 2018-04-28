@@ -15,10 +15,12 @@ localhost:8080//api/v1/namespaces/kube-system/services/monitoring-grafana/proxy
 ./builddocker.sh ./example12 awardsolutionsuser image_example stress-ng
 kubectl create -f example12/k8s-stress-ng.yaml
 #view usage in grafana console
-#run 2 CPU test if there is time
 # show slide 20 from k8s slide deck
+
+#run 2 CPU test if there is time; you must modify the yaml file to do 2nd test
 #possibilities execution scenarios
-run 1CPU 4 min; OR run 50% on 2CPU for 4 min
+
+run 1CPU 2 min; OR run 50% on 2CPU for 4 min
 
 
 
