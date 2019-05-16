@@ -45,7 +45,7 @@ func main() {
 
 	client := &http.Client{}
 
-	url := "http://" + targetIP + ":" + targetPort
+	url := "https://" + targetIP
 	i := 0
 	responseMap := make(map[string]int)
 
